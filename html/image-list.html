@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>图片列表</title>
+    <style>
+        .image-list-item {
+            margin-bottom: 20px;
+        }
+
+        .image-list-item img {
+            max-width: 200px;
+            max-height: 200px;
+            border: 1px solid #ddd;
+            margin-right: 10px;
+        }
+
+        .image-list-item a {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+<h2>图片列表</h2>
+<div id="fileList">
+    <!-- 动态生成的图片列表将会放在这里 -->
+</div>
+<script>
+    window.onload = function() {
+        fetch('/image-service/list')
+            .then(response => response.text())
+            .then(data => {
+                const files = data.split('\n');
+                const listDiv = document.getElementById('fileList');
+
+                files.forEach(file => {
+                    if (file) {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = 'image-list-item';
+
+                        const image = document.createElement('img');
+                        image.src = `/download?filename=${file}`;
+                        itemDiv.appendChild(image);
+
+                        const link = document.createElement('a');
+                        link.href = `/download?filename=${file}`;
+                        link.textContent = file;
+                        itemDiv.appendChild(link);
+
+                        listDiv.appendChild(itemDiv);
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching image list:', error));
+    };
+</script>
+</body>
+</html>
