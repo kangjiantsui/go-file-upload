@@ -7,6 +7,7 @@ import (
 	"mime/multipart"
 	"net/http"
 	"os"
+	"path/filepath"
 )
 
 func uploadFile(w http.ResponseWriter, r *http.Request) {
@@ -71,8 +72,22 @@ func downloadImage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Disposition", "attachment; filename="+fileName)
-	w.Header().Set("Content-Type", "application/octet-stream")
+	// 基于文件扩展名推断Content-Type，而不是使用application/octet-stream
+	contentType := "application/octet-stream" // 默认值
+	switch filepath.Ext(fileName) {
+	case ".jpg", ".jpeg":
+		contentType = "image/jpeg"
+	case ".png":
+		contentType = "image/png"
+	case ".gif":
+		contentType = "image/gif"
+		// 可以根据需要添加更多的文件类型
+	}
+	w.Header().Set("Content-Type", contentType)
+
+	// 不设置Content-Disposition头部，或者将其设置为inline也可以
+	// w.Header().Set("Content-Disposition", "inline; filename="+fileName)
+
 	http.ServeFile(w, r, filePath)
 }
 

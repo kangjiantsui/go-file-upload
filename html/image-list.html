@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <title>图片列表</title>
     <style>
-        .image-list-item {
-            margin-bottom: 20px;
-        }
 
         .image-list-item img {
             max-width: 200px;
@@ -39,12 +36,14 @@
                         itemDiv.className = 'image-list-item';
 
                         const image = document.createElement('img');
-                        image.src = `/download?filename=${file}`;
+                        // 使用window.location.origin获取当前页面的原点（协议+主机名）
+                        const imageUrl = `${window.location.origin}/image-service/download?filename=${encodeURIComponent(file)}`;
+                        image.src = imageUrl;
                         itemDiv.appendChild(image);
 
                         const link = document.createElement('a');
-                        link.href = `/download?filename=${file}`;
-                        link.textContent = file;
+                        link.href = imageUrl;
+                        link.textContent = imageUrl; // 显示为完整的URL
                         itemDiv.appendChild(link);
 
                         listDiv.appendChild(itemDiv);
