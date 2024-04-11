@@ -81,13 +81,8 @@ func downloadImage(w http.ResponseWriter, r *http.Request) {
 		contentType = "image/png"
 	case ".gif":
 		contentType = "image/gif"
-		// 可以根据需要添加更多的文件类型
 	}
 	w.Header().Set("Content-Type", contentType)
-
-	// 不设置Content-Disposition头部，或者将其设置为inline也可以
-	// w.Header().Set("Content-Disposition", "inline; filename="+fileName)
-
 	http.ServeFile(w, r, filePath)
 }
 
