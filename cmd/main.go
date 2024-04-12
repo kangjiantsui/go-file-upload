@@ -43,7 +43,7 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 	_, _ = fmt.Fprintf(w, "文件上传成功！")
 }
 
-func listImages(w http.ResponseWriter, r *http.Request) {
+func listImages(w http.ResponseWriter, _ *http.Request) {
 	imagesDir := "/app/images/"
 	files, err := os.ReadDir(imagesDir)
 	if err != nil {
