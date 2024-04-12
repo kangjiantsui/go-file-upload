@@ -1,7 +1,7 @@
 FROM alpine:latest
 
 COPY build/go-file-upload /app/
-COPY ../html /app/html
+COPY ./html /app/html
 
 WORKDIR /app
 RUN mkdir -p /app/images && \
