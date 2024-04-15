@@ -1,0 +1,21 @@
+services:
+  image-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: image-service
+    container_name: image-service
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./images:/app/images
+
+  kj-nginx:
+    image: nginx
+    container_name: kj-nginx
+    ports:
+      - "15408:15408"
+    volumes:
+      - ./nginx/nginx:/etc/nginx
+    environment:
+      - TZ=Asia/Shanghai
