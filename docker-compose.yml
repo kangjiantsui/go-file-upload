@@ -1,9 +1,6 @@
 services:
   image-service:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: image-service
+    image: kangjiantsui/image-service:latest
     container_name: image-service
     environment:
       - TZ=Asia/Shanghai
