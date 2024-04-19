@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'builder' // 在整个 Pipeline 中使用同一个 Docker agent
+        label 'builder'
     }
     stages {
         stage('环境检查') {
@@ -10,6 +10,7 @@ pipeline {
                     sh 'java -version'
                     sh 'go version'
                     sh 'git --version'
+                    sh 'docker version' // 检查 Docker 版本
                 }
             }
         }
@@ -20,6 +21,15 @@ pipeline {
                     sh 'git clone --depth 1 https://github.com/kangjiantsui/go-file-upload.git'
                     sh 'ls -la go-file-upload'
                     sh 'cat go-file-upload/README.md'
+                }
+            }
+        }
+        stage('构建镜像') {
+            steps {
+                script {
+                    echo 'Building Docker image...'
+                    sh 'cd go-file-upload'
+                    sh './build_image.sh'
                 }
             }
         }
