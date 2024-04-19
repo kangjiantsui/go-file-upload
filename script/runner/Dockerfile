@@ -17,11 +17,8 @@ RUN sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list && 
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
     echo $TZ > /etc/timezone
 
-# 安装 OpenJDK 11，Go 1.21，wget 和 git
 RUN apt-get update && \
-    apt-get install -y openjdk-11-jdk wget git && \
-    wget https://mirrors.ustc.edu.cn/golang/go1.21rc2.linux-amd64.tar.gz -O /tmp/go1.21.linux-amd64.tar.gz && \
-    tar -xzf /tmp/go1.21.linux-amd64.tar.gz -C /usr/local
+    apt-get install -y openjdk-11-jdk wget git
 
 # 单独一步安装 Docker CLI
 RUN apt-get update && \
@@ -30,9 +27,6 @@ RUN apt-get update && \
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
     apt-get update && \
     apt-get install -y docker-ce-cli
-
-# 设置 Go 环境变量
-ENV PATH="${PATH}:/usr/local/go/bin"
 
 # 定义构建时的密钥参数
 ARG SSH_PRIVATE_KEY
