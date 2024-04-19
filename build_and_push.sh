@@ -1,8 +1,5 @@
 export LANG=C.UTF-8
 export LC_ALL=C.UTF-8
-# 设置编译环境变量
-export GOOS=linux
-export GOARCH=amd64
 
 # 构建 Go 项目
 go build -o build/go-file-upload cmd/main.go
