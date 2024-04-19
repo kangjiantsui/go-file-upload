@@ -34,5 +34,18 @@ RUN apt-get update && \
 # 设置 Go 环境变量
 ENV PATH="${PATH}:/usr/local/go/bin"
 
+# 定义构建时的密钥参数
+ARG SSH_PRIVATE_KEY
+ARG SSH_PUBLIC_KEY
+
+RUN mkdir -p /root/.ssh && \
+    echo "$SSH_PRIVATE_KEY" > /root/.ssh/id_ed25519 && \
+    echo "$SSH_PUBLIC_KEY" > /root/.ssh/id_ed25519.pub && \
+    chmod 600 /root/.ssh/id_ed25519 && \
+    chmod 644 /root/.ssh/id_ed25519.pub
+
+RUN ssh-keyscan github.com >> /root/.ssh/known_hosts && \
+        chmod 600 /root/.ssh/known_hosts
+
 # 完成设置
 RUN echo "Docker image is ready to use."

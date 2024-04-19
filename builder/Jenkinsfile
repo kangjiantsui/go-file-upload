@@ -10,7 +10,8 @@ pipeline {
                     sh 'java -version'
                     sh 'go version'
                     sh 'git --version'
-                    sh 'docker version' // 检查 Docker 版本
+                    sh 'docker version'
+                    sh 'cat ~/.ssh/id_ed25519.pub'
                 }
             }
         }
@@ -18,7 +19,7 @@ pipeline {
             steps {
                 script {
                     echo 'Pulling code on the same agent...'
-                    sh 'git clone --depth 1 https://github.com/kangjiantsui/go-file-upload.git'
+                    sh 'git clone --depth 1 git@github.com:kangjiantsui/go-file-upload.git'
                     sh 'ls -la go-file-upload'
                     sh 'cat go-file-upload/README.md'
                 }
@@ -28,8 +29,12 @@ pipeline {
             steps {
                 script {
                     echo 'Building Docker image...'
-                    sh 'cd go-file-upload'
-                    sh './build_image.sh'
+                    sh '''
+                        chmod -R 777 go-file-upload
+                        cd go-file-upload
+                        ls -la
+                        ./build_image.sh
+                    '''
                 }
             }
         }
