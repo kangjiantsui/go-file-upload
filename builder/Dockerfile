@@ -24,6 +24,8 @@ RUN tar -xzf /tmp/go1.21.linux-amd64.tar.gz -C /usr/local
 # 设置 Go 环境变量
 ENV PATH="${PATH}:/usr/local/go/bin"
 
+# 安装 Git
+RUN apt-get install -y git
+
 # 清理缓存
 RUN rm -rf /var/lib/apt/lists/* /tmp/go1.21.linux-amd64.tar.gz
-
